@@ -1,4 +1,4 @@
-package jp.co.alh.controller;
+package com.controller;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
-import jp.co.alh.model.MineLabel;
-import jp.co.alh.view.MineSweeperFrame;
+import com.model.MineLabel;
+import com.view.MineSweeperFrame;
 
 public class MineSelectListener extends MouseInputAdapter {
 
@@ -64,7 +64,7 @@ public class MineSelectListener extends MouseInputAdapter {
         MineLabel label = (MineLabel) e.getComponent();
         label.setIcon(this.filedMap.get(label.getId()));
         Container con = label.getParent();
-        showMesssege(boms.get(label.getId()), con);
+        showMesssege(this.boms.get(label.getId()), con);
 
     }
 

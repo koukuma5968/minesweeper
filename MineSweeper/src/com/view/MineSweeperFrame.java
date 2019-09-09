@@ -1,4 +1,4 @@
-package jp.co.alh.view;
+package com.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-import jp.co.alh.controller.MineSelectListener;
-import jp.co.alh.model.MineLabel;
+import com.controller.MineSelectListener;
+import com.model.MineLabel;
+
 import jp.co.alh.model.messagersouce.Messages;
 
 public class MineSweeperFrame extends JFrame {

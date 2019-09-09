@@ -1,4 +1,4 @@
-package jp.co.alh.model;
+package com.model;
 
 import javax.swing.JLabel;
 

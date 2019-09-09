@@ -1,6 +1,6 @@
-package jp.co.alh.main;
+package com.main;
 
-import jp.co.alh.view.MineSweeperFrame;
+import com.view.MineSweeperFrame;
 
 public class Main {
 
