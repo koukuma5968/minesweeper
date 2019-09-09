@@ -2,6 +2,7 @@ package com.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,9 +10,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import com.controller.MineSelectListener;
+import com.controller.SelectListenerInterface;
 import com.model.MineLabel;
-
-import jp.co.alh.model.messagersouce.Messages;
+import com.model.messagersouce.Messages;
 
 public class MineSweeperFrame extends JFrame {
 
@@ -36,7 +37,10 @@ public class MineSweeperFrame extends JFrame {
         layout.setColumns(colCount);
         pane.setLayout(layout);
 
-        MineSelectListener mineLis = new MineSelectListener(bomCount, rowCount, colCount);
+        SelectListenerInterface mineLis = new MineSelectListener();
+        mineLis.setMineRandom(bomCount, rowCount * colCount);
+        mineLis.setStartEndPoint(rowCount, colCount);
+        mineLis.setFiledMap(rowCount, colCount);
 
         EtchedBorder border = new EtchedBorder(EtchedBorder.RAISED, Color.WHITE, Color.BLACK);
 
@@ -48,7 +52,7 @@ public class MineSweeperFrame extends JFrame {
                 label.setId(index);
                 label.setBorder(border);
                 label.setOpaque(true);
-                label.addMouseListener(mineLis);
+                label.addMouseListener((MouseListener) mineLis);
                 label.setVerticalAlignment(SwingConstants.HORIZONTAL);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
 
