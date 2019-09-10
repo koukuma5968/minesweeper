@@ -13,6 +13,12 @@ public class BomFiledBean {
 
     private LinkedHashMap<Integer, String> filedMap = null;
 
+    private int bomCount = 0;
+
+    private int rowCount = 0;
+
+    private int colCount = 0;
+
     public BitSet getBoms() {
         return boms;
     }
@@ -43,6 +49,30 @@ public class BomFiledBean {
 
     public void setFiledMap(LinkedHashMap<Integer, String> filedMap) {
         this.filedMap = filedMap;
+    }
+
+    public int getBomCount() {
+        return bomCount;
+    }
+
+    public void setBomCount(int bomCount) {
+        this.bomCount = bomCount;
+    }
+
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
+    public int getColCount() {
+        return colCount;
+    }
+
+    public void setColCount(int colCount) {
+        this.colCount = colCount;
     }
 
 }
