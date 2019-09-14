@@ -8,6 +8,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
@@ -15,17 +16,26 @@ public class MultipleTextInputDialog extends Dialog<String[]> {
 
    private final GridPane grid;
    private final TextField[] textFields;
+   private final Label[] labels;
 
-   public MultipleTextInputDialog() {
+   public MultipleTextInputDialog(int fieldCount) {
        final DialogPane dialogPane = getDialogPane();
 
        // -- textfield
-       this.textFields = new TextField[] {new TextField(), new TextField(), new TextField()};
-       this.textFields[0].setMaxWidth(Double.MAX_VALUE);
-       this.textFields[1].setMaxWidth(Double.MAX_VALUE);
-       this.textFields[2].setMaxWidth(Double.MAX_VALUE);
-//       GridPane.setHgrow(this.textFields[0], Priority.ALWAYS);
-//       GridPane.setFillWidth(this.textFields[0], true);
+       this.textFields = new TextField[fieldCount];
+       int i = 0;
+       while (i < fieldCount) {
+           this.textFields[i] = new TextField();
+           this.textFields[i].setMaxWidth(Double.SIZE);
+           i++;
+       }
+
+       this.labels = new Label[fieldCount];
+       int j = 0;
+       while (j < fieldCount) {
+           this.labels[j] = new Label();
+           j++;
+       }
 
        this.grid = new GridPane();
        this.grid.setHgap(10);
@@ -43,23 +53,38 @@ public class MultipleTextInputDialog extends Dialog<String[]> {
 
        setResultConverter((dialogButton) -> {
            ButtonData data = dialogButton == null ? null : dialogButton.getButtonData();
-           return data == ButtonData.OK_DONE ? new String[] {
-                   this.textFields[0].getText(),
-                   this.textFields[1].getText(),
-                   this.textFields[2].getText()} : null;
+           String[] ret = new String[this.textFields.length];
+           int k = 0;
+           for (TextField text : this.textFields) {
+               ret[k] = text.getText();
+               k++;
+           }
+           return data == ButtonData.OK_DONE ? ret : new String[] {""};
        });
    }
 
-   public final TextField[] getEditor() {
+   public final TextField[] getFields() {
        return this.textFields;
+   }
+
+   public final Label[] getLabels() {
+       return this.labels;
    }
 
    private void updateGrid() {
        this.grid.getChildren().clear();
 
-       this.grid.add(this.textFields[0], 1, 0);
-       this.grid.add(this.textFields[1], 1, 1);
-       this.grid.add(this.textFields[2], 1, 2);
+       int i = 0;
+       for (TextField text : this.textFields) {
+           this.grid.add(text, 2, i);
+           i++;
+       }
+
+       int j = 0;
+       for (Label label : this.labels) {
+           this.grid.add(label, 1, j);
+           j++;
+       }
 
        getDialogPane().setContent(grid);
 
