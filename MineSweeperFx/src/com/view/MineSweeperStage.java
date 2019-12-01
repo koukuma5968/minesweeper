@@ -2,56 +2,38 @@ package com.view;
 
 import java.util.Optional;
 
-import com.controller.MultipleTextInputDialog;
+import com.controller.messageDialog.MultipleTextInputDialog;
 import com.model.filed.BomFiledBean;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class MineSweeperStage extends Application {
 
-    private BomFiledBean bomBean = new BomFiledBean();
-    private String[] textId = new String[] {"bom", "col", "row"};
-    private String[] labelText = new String[] {"bom数", "列数", "行数"};
+	private BomFiledBean bomBean = new BomFiledBean();
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+	@Override
+	public void start(Stage primaryStage) throws Exception {
 
-        MultipleTextInputDialog inputDialog = new MultipleTextInputDialog(3);
-        inputDialog.setTitle("難易度設定");
-        int i = 0;
-        for (Label dialogLabel : inputDialog.getLabels()) {
-            dialogLabel.setText(labelText[i]);
-            i++;
-        }
+		MultipleTextInputDialog inputDialog = new MultipleTextInputDialog(3);
 
-        int j = 0;
-        for (TextField fields : inputDialog.getFields()) {
-            fields.setId(textId[j]);
-            j++;
-        }
+		Optional<String[]> result = inputDialog.showAndWait();
+		String[] res = result.get();
+		this.bomBean = new BomFiledBean();
 
-        inputDialog.getDialogPane().setPrefSize(150, 200);
+		bomBean.setBomCount(Integer.valueOf(res[0]));
+		bomBean.setRowCount(Integer.valueOf(res[1]));
+		bomBean.setColCount(Integer.valueOf(res[2]));
 
-        Optional<String[]> result = inputDialog.showAndWait();
-        String[] res = result.get();
-        this.bomBean = new BomFiledBean();
+		MinePanel pane = new MinePanel();
 
-        bomBean.setBomCount(Integer.valueOf(res[0]));
-        bomBean.setRowCount(Integer.valueOf(res[1]));
-        bomBean.setColCount(Integer.valueOf(res[2]));
+		pane.init(bomBean);
 
-        MinePanel pane = new MinePanel();
+		Scene scene = new Scene(pane, 400, 400);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 
-        pane.init(bomBean);
-
-        Scene scene = new Scene(pane, 200, 200);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-    }
+	}
 
 }
