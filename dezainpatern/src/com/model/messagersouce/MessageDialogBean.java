@@ -1,27 +1,25 @@
-package com.model;
-
-import java.awt.Container;
+package com.model.messagersouce;
 
 public class MessageDialogBean {
 
-    private boolean showFlag = false;
+	private boolean showFlag = false;
 
-    private Container container = null;
+	private Object container = null;
 
-    public boolean isShowFlag() {
-        return this.showFlag;
-    }
+	public boolean isShowFlag() {
+		return this.showFlag;
+	}
 
-    public void setShowFlag(boolean showFlag) {
-        this.showFlag = showFlag;
-    }
+	public void setShowFlag(boolean showFlag) {
+		this.showFlag = showFlag;
+	}
 
-    public Container getContainer() {
-        return this.container;
-    }
+	public Object getContainer() {
+		return this.container;
+	}
 
-    public void setContainer(Container container) {
-        this.container = container;
-    }
+	public void setContainer(Object container) {
+		this.container = container;
+	}
 
 }
