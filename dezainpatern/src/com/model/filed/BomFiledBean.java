@@ -7,6 +7,8 @@ public class BomFiledBean {
 
 	private BitSet boms = null;
 
+	private BitSet allBit = null;
+
 	private BitSet sPoint = null;
 
 	private BitSet ePoint = null;
@@ -73,6 +75,14 @@ public class BomFiledBean {
 
 	public void setColCount(int colCount) {
 		this.colCount = colCount;
+	}
+
+	public BitSet getAllBit() {
+		return allBit;
+	}
+
+	public void setAllBit(BitSet allBit) {
+		this.allBit = allBit;
 	}
 
 }

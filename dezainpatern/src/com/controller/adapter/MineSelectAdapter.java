@@ -22,24 +22,25 @@ public abstract class MineSelectAdapter implements SelectListenerInterface {
 		setMineRandom(bomFiledBean.getBomCount(), bomFiledBean.getRowCount() * bomFiledBean.getColCount());
 		setStartEndPoint(bomFiledBean.getRowCount(), bomFiledBean.getColCount());
 		setFiledMap(bomFiledBean.getRowCount(), bomFiledBean.getColCount());
+		setAllFiled();
 	}
 
 	@Override
 	public void setMineRandom(int bomCount, int filedCount) {
 
-		BitSet bit = new BitSet();
+		BitSet bombit = new BitSet();
 		Random random = new Random();
 
 		for (int i = 0; i < bomCount;) {
-			int bom = random.nextInt(filedCount);
+			int bom = random.nextInt(filedCount) + 1;
 
-			if (!bit.get(bom)) {
-				bit.set(bom, true);
+			if (!bombit.get(bom)) {
+				bombit.set(bom, true);
 				i++;
 			}
 		}
 
-		this.bean.setBoms(bit);
+		this.bean.setBoms(bombit);
 	}
 
 	@Override
@@ -64,31 +65,31 @@ public abstract class MineSelectAdapter implements SelectListenerInterface {
 
 		LinkedHashMap<Integer, String> fMap = new LinkedHashMap<>();
 
-		int col = 1;
-		for (int row = 1; row <= rowCount; row++) {
-			int nextCol = colCount * row;
-			for (;col <= nextCol; col++) {
-				if (this.bean.getBoms().get(col)) {
-					fMap.put(col, Constant.IMAGE_PATH + Constant.BOM_IMAGE);
+		int index = 1;
+		for (int row = 0; row < rowCount; row++) {
+			for (int col = 0; col < colCount; col++) {
+				if (this.bean.getBoms().get(index)) {
+					fMap.put(index, Constant.IMAGE_PATH + Constant.BOM_IMAGE);
 				} else {
 					byte count = 0;
 
 					// 上、左上、右上
-					int topPrevious = col - colCount;
-					count = getTopAndBottomPoint(topPrevious, col, rowCount, colCount, count);
+					int topPrevious = index - colCount;
+					count = getTopAndBottomPoint(topPrevious, index, rowCount, colCount, count);
 
 					// 下、左下、右下
-					int lastNext = col + colCount;
-					count = getTopAndBottomPoint(lastNext, col, rowCount, colCount, count);
+					int lastNext = index + colCount;
+					count = getTopAndBottomPoint(lastNext, index, rowCount, colCount, count);
 
 					// 左
-					int previous = col - 1;
+					int previous = index - 1;
 					// 右
-					int next = col + 1;
-					count = getLeftAndRightPoint(previous, next, col, count);
+					int next = index + 1;
+					count = getLeftAndRightPoint(previous, next, index, count);
 
-					fMap.put(col, Constant.IMAGE_PATH.concat(WHITE_IMAGE.valueOf(Constant.WHITE.concat(String.valueOf(count))).getKeyName()));
+					fMap.put(index, Constant.IMAGE_PATH.concat(WHITE_IMAGE.valueOf(Constant.WHITE.concat(String.valueOf(count))).getKeyName()));
 				}
+				index++;
 			}
 		}
 		this.bean.setFiledMap(fMap);
@@ -122,4 +123,19 @@ public abstract class MineSelectAdapter implements SelectListenerInterface {
 		return ret;
 	}
 
+	protected void setAllFiled() {
+
+		int allCount = this.bean.getRowCount() * this.bean.getColCount() + 1;
+		BitSet allBit = new BitSet(allCount);
+		allBit.set(1, allCount);
+		allBit.andNot(bean.getBoms());
+
+		this.bean.setAllBit(allBit);
+
+	}
+
+	protected boolean checkRemovalBom() {
+
+		return this.bean.getAllBit().isEmpty();
+	}
 }
