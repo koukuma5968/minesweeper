@@ -24,7 +24,7 @@ public class MineSweeperFrame extends JFrame {
 		super();
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		super.setBounds(100, 100, 400, 400);
-		super.setTitle(Messages.getString(Messages.getString("MineSweeperFrame.title"))); //$NON-NLS-1$
+		super.setTitle(Messages.getString(Messages.getString("MineSweeper.title"))); //$NON-NLS-1$
 	}
 
 	public void init(BomFiledBean bean) {

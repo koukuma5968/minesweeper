@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.MouseEvent;
 
@@ -30,6 +31,7 @@ public class MineSelectListener extends MineSelectAdapter implements MouseInputL
 		MineLabel label = (MineLabel) e.getComponent();
 		ImageIcon icon = new ImageIcon(super.getBean().getFiledMap().get(Integer.valueOf(label.getId())));
 		label.setIcon(icon);
+		label.setBackground(Color.WHITE);
 		label.setVerticalAlignment(SwingConstants.HORIZONTAL);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -37,10 +39,22 @@ public class MineSelectListener extends MineSelectAdapter implements MouseInputL
 
 		MessageDialogBean bean = new MessageDialogBean();
 		bean.setContainer(con);
-		bean.setShowFlag(super.getBean().getBoms().get(label.getId()));
+		boolean bitFlag = super.getBean().getBoms().get(label.getId());
+		bean.setShowFlag(bitFlag);
+		super.getBean().getAllBit().set(label.getId(), bitFlag);
 
 		MessageDialogInterface magDig = new MessageDialogImpl(bean, super.getBean());
-		magDig.showDialog();
+		int show = magDig.showDialog();
+
+		if (show == 0) {
+			if (super.checkRemovalBom()) {
+				show = magDig.clearDialog();
+			}
+		}
+
+		if (show == 1) {
+			super.setAllFiled();
+		}
 
 	}
 
