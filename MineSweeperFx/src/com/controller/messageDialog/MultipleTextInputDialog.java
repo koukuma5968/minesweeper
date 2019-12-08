@@ -46,10 +46,11 @@ public class MultipleTextInputDialog extends Dialog<String[]> {
 		this.grid.setAlignment(Pos.CENTER_LEFT);
 
 		dialogPane.contentTextProperty().addListener(o -> updateGrid());
+		dialogPane.setContentText(null);
 
-		dialogPane.setHeaderText(ControlResources.getString("Dialog.confirm.header"));
+		dialogPane.setHeaderText("設定");
 		dialogPane.getStyleClass().add("text-input-dialog");
-		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+		dialogPane.getButtonTypes().addAll(ButtonType.OK);
 
 		updateGrid();
 
@@ -61,7 +62,7 @@ public class MultipleTextInputDialog extends Dialog<String[]> {
 				ret[k] = text.getText();
 				k++;
 			}
-			return data == ButtonData.OK_DONE ? ret : new String[] {""};
+			return data == ButtonData.OK_DONE ? ret : null;
 		});
 
 		setDisp();

@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
 
 public class MineSelectListener extends MineSelectAdapter implements EventHandler<MouseEvent> {
 
@@ -33,7 +34,7 @@ public class MineSelectListener extends MineSelectAdapter implements EventHandle
 			Image img;
 			try {
 				img = new Image(new FileInputStream(this.getBean().getFiledMap().get(Integer.valueOf(label.getIndex()))));
-				BackgroundImage bimg = new BackgroundImage(img, null, null, null, null);
+				BackgroundImage bimg = new BackgroundImage(img, null, null, null, new BackgroundSize(10, 20, false, false, true, false));
 				Background bg = new Background(bimg);
 				label.setPadding(new Insets(0));
 				label.setBackground(bg);
@@ -45,10 +46,22 @@ public class MineSelectListener extends MineSelectAdapter implements EventHandle
 
 			MessageDialogBean bean = new MessageDialogBean();
 			bean.setContainer(con);
-			bean.setShowFlag(super.getBean().getBoms().get(label.getIndex()));
+			boolean bitFlag = super.getBean().getBoms().get(label.getIndex());
+			bean.setShowFlag(bitFlag);
+			super.getBean().getAllBit().set(label.getIndex(), bitFlag);
 
 			MessageDialogInterface magDig = new MessageDialogImpl(bean, super.getBean());
-			magDig.showDialog();
+			int show = magDig.showDialog();
+
+			if (show == 0) {
+				if (super.checkRemovalBom()) {
+					show = magDig.clearDialog();
+				}
+			}
+
+			if (show == 1) {
+				super.setAllFiled();
+			}
 
 		}
 
